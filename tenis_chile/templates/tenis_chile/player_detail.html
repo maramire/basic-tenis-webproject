@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+
+{% block page_title %}
+Todos los jugadores
+{% endblock %}
+
+{% block page_body %}
+<div class="container-fluid-lg">
+  <div class="row justify-content-md-center">   
+    <div class="col col-offset-2 col-lg-9 mt-5">
+
+      <h3>Datos de jugador</h3>
+      <div class="card mb-3" style="max-width: 1000px;">
+        <div class="row g-0">
+          {# Image #}
+          <div class="col-md-4 text-center mt-2">
+            <img src="{{player.image.url}}" alt="...">
+          </div>
+          {# Data #}
+          <div class="col-md-4">
+            <div class="card-body">
+              <h5 class="card-title">{{player.get_full_name}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Edad: {{player.get_age}}</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Ranking: {{player.actual_ranking}}</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Títulos ATP: {{player.pro_titles}}</h6>
+              <p class="card-text"><small class="text-muted">Entrenador: {{player.coach}}</small></p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 mt-4 text-muted">Peso: {{player.weight}} kg</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Altura: {{player.height}} cm</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Lugar de Nacimiento: {{player.birth_place}}</h6>
+              <p class="card-text"><small class="text-muted">Raqueta: {{player.racket}}</small></p>
+            </div>
+          </div>
+          {# Bio #}
+          <div class="card-footer">
+            <div class="accordion" id="accordionBio">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingBio">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBio" aria-expanded="false" aria-controls="collapseBio">
+                    Bio
+                  </button>
+                </h2>
+                <div id="collapseBio" class="accordion-collapse collapse" aria-labelledby="headingBio" data-bs-parent="#accordionBio">
+                  <div class="accordion-body">
+                    <p class="card-text">{{player.bio|linebreaks}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+
+      <h3>Últimos Partidos</h3>
+      <div class="card mb-3" style="max-width: 1000px;">
+        <div class="row g-0">
+          {# Data #}
+          <div class="col col-offset-4">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Partidos disputados últimamente</h6>
+              <table class="table text-center">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Torneo</th>
+                    <th scope="col">Oponente</th>                    
+                    <th scope="col">Resultado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for match in matches %}
+                    <tr>
+                      <td>
+                        <a href="{% url 'tournament-match-detail' match.id %}">Ver</a>
+                      </td>
+                      <td>{{match.date}}</td>  
+                      <td>
+                        <a href="{% url 'tournament-detail' match.tournament.id %}">{{match.tournament.name}}</a>
+                      </td>                                          
+                      <td>
+                        {% for winner in match.winners.all %}
+                          {{ winner.get_full_name }}
+                      </td>
+                          {% if winner.get_full_name == player.get_full_name %}
+                            <td>Victoria</td>
+                          {% else %}
+                            <td>Derrota</td>
+                          {% endif %}
+                        {% endfor %}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Historial Ranking</h3>
+      <div class="card mb-3" style="max-width: 1000px;">
+        <div class="row g-0">
+          {# Data #}
+          <div class="col col-offset-4">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Ranking al término de cada año</h6>
+              <table class="table text-center">
+                <thead>
+                  <tr>
+                    <th scope="col">Año</th>
+                    <th scope="col">Ranking</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for ranking in ranking_history %}
+                    <tr>
+                      <td>{{ranking.date|date:'Y'}}</td>
+                      <td>{{ranking.ranking}}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+{% endblock %}

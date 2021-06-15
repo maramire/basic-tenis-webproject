@@ -1,0 +1,32 @@
+.navbar.navbar-expand-lg {
+  background-color: #4056A1;
+  border-color: #4056A1;
+  min-height: 10vh;
+}
+.navbar.navbar-expand-lg .navbar-brand {
+  color: #ffffff;
+}
+.navbar.navbar-expand-lg .navbar-brand:hover,
+.navbar.navbar-expand-lg .navbar-brand:focus {
+  color: #EFE2BA;
+}
+
+.nav-item a {
+  color: #ffffff;
+}
+.nav-item a:hover,
+.nav-item a:focus {
+  color: #EFE2BA;
+}
+
+.navbar-brand {
+  padding: 0px;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  font-size: 25px;
+}
+
+.container-fluid-lg {
+  background-color: #f8f8fa;
+  min-height: 90vh;
+}
