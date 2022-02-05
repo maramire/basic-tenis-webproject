@@ -4,6 +4,7 @@ from django_resized import ResizedImageField
 import re
 from datetime import date
 
+
 class Player(models.Model):
     FOREHAND_1 = 'RF'
     FOREHAND_2 = 'LF'
@@ -23,22 +24,28 @@ class Player(models.Model):
     ]
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    image = ResizedImageField(size=[200,200], upload_to='uploads', null=True)
+    image = ResizedImageField(size=[200, 200], upload_to='uploads', null=True)
     birth_date = models.DateField()
     nationality = models.CharField(max_length=50, default='Chile')
-    weight = models.IntegerField(blank=True, null=True) # in kg
-    height = models.IntegerField(blank=True, null=True) # in cm
-    coach = models.CharField(max_length=100, blank=True) # blank allow empty strings in form
+    weight = models.IntegerField(blank=True, null=True)  # in kg
+    height = models.IntegerField(blank=True, null=True)  # in cm
+    # blank allow empty strings in form
+    coach = models.CharField(max_length=100, blank=True)
     birth_place = models.CharField(max_length=50, blank=True)
     residence = models.CharField(max_length=50, blank=True)
-    actual_ranking = models.IntegerField(null=True, validators=[MinValueValidator(0)])
-    pro_titles = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
-    bio = models.TextField(blank=True) 
+    actual_ranking = models.IntegerField(
+        null=True, validators=[MinValueValidator(0)])
+    pro_titles = models.IntegerField(
+        blank=True, null=True, validators=[MinValueValidator(0)])
+    bio = models.TextField(blank=True)
     sponsor = models.CharField(blank=True, max_length=50)
     racket = models.CharField(blank=True, max_length=50)
-    actual_points = models.IntegerField(null=True, validators=[MinValueValidator(0)])
-    forehand = models.CharField(blank=True, max_length=2, choices=FOREHAND_CHOICES)
-    backhand = models.CharField(blank=True, max_length=2, choices=BACKHAND_CHOICES)
+    actual_points = models.IntegerField(
+        null=True, validators=[MinValueValidator(0)])
+    forehand = models.CharField(
+        blank=True, max_length=2, choices=FOREHAND_CHOICES)
+    backhand = models.CharField(
+        blank=True, max_length=2, choices=BACKHAND_CHOICES)
     slug = models.SlugField(null=True)
 
     def __str__(self):
@@ -46,7 +53,7 @@ class Player(models.Model):
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
-    
+
     def get_age(self):
         today = date.today()
         born = self.birth_date
@@ -54,14 +61,18 @@ class Player(models.Model):
 
 
 class RankingHistory(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='rankings')
+    player = models.ForeignKey(
+        Player, on_delete=models.CASCADE, related_name='rankings')
     date = models.DateField()
     ranking = models.IntegerField(validators=[MinValueValidator(0)])
-    points = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0)])
+    points = models.IntegerField(
+        null=True, blank=True, validators=[MinValueValidator(0)])
+
 
 class TournamentType(models.Model):
     name = models.CharField(max_length=50)
-    image = ResizedImageField(size=[200,200], upload_to='uploads/tournament_types', null=True)
+    image = ResizedImageField(
+        size=[200, 200], upload_to='uploads/tournament_types', null=True)
     level = models.CharField(max_length=50)
     points = models.IntegerField(validators=[MinValueValidator(0)])
     association = models.CharField(max_length=50)
@@ -69,6 +80,7 @@ class TournamentType(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Tournament(models.Model):
     CLAY = 'C'
@@ -82,17 +94,21 @@ class Tournament(models.Model):
         (CARPET, 'Carpeta')
     ]
     name = models.CharField(max_length=50)
-    image = ResizedImageField(size=[200,200], upload_to='uploads/tournaments', null=True)
+    image = ResizedImageField(
+        size=[200, 200], upload_to='uploads/tournaments', null=True)
     date = models.DateField()
     surface = models.CharField(max_length=1, choices=SURFACE_CHOICES)
     players = models.ManyToManyField(Player, related_name='tournaments')
-    tournament_type = models.OneToOneField(TournamentType, on_delete=models.CASCADE)
+    tournament_type = models.OneToOneField(
+        TournamentType, on_delete=models.CASCADE)
     location = models.CharField(max_length=50)
     rounds = models.IntegerField(null=True, validators=[MinValueValidator(1)])
-    prize = models.IntegerField(null=True, validators=[MinValueValidator(0)]) # dollars
+    prize = models.IntegerField(null=True, validators=[
+                                MinValueValidator(0)])  # dollars
 
     def __str__(self):
         return self.name
+
 
 class TournamentMatch(models.Model):
     LOCAL = '1'
@@ -112,7 +128,8 @@ class TournamentMatch(models.Model):
     set_3 = models.CharField(max_length=8, blank=True)
     set_4 = models.CharField(max_length=8, blank=True)
     set_5 = models.CharField(max_length=8, blank=True)
-    winners = models.ManyToManyField(Player, blank=True, null=True, related_name='+')
+    winners = models.ManyToManyField(
+        Player, blank=True, null=True, related_name='+')
     round_number = models.IntegerField(validators=[MinValueValidator(1)])
     highlights_embed = models.CharField(max_length=300, blank=True, null=True)
     streaming_embed = models.TextField(blank=True, null=True)
@@ -123,4 +140,3 @@ class TournamentMatch(models.Model):
         for winner in winners:
             lst.append(winner.get_full_name())
         return ' - '.join(lst)
-

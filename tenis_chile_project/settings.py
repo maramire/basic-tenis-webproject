@@ -57,7 +57,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates' # allow global templates (base, 404)
+            BASE_DIR / 'templates'  # allow global templates (base, 404)
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -80,7 +80,10 @@ WSGI_APPLICATION = 'tenis_chile_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        }
+        'NAME': 'tenis_chile',
+        'USER': 'root',
+        'PASSWORD': 'oxolok35971',
+    }
 }
 
 

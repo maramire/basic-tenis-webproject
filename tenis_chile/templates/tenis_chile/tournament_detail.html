@@ -1,34 +1,41 @@
-{% extends 'base.html' %}
-
-
-{% block page_title %}
-  Detalle Torneo
+{% extends 'base.html' %} 
+{% block page_title %} 
+  Detalle Torneo 
 {% endblock %}
-
 {% block page_body %}
 <div class="container-fluid-lg">
-  <div class="row justify-content-md-center">   
+  <div class="row justify-content-md-center">
     <div class="col col-offset-2 col-lg-9 mt-5">
       <h3>Datos de Torneo</h3>
       {# Card #}
-      <div class="card mb-3" style="max-width: 1000px;">
+      <div class="card mb-3" style="max-width: 1000px">
         <div class="row g-0">
           {# Image #}
           <div class="col-md-4 text-center mt-4">
-            <img src="{{tournament.image.url}}" alt="...">
+            <img src="{{tournament.image.url}}" alt="..." />
           </div>
           {# Data #}
           <div class="col-md-4">
             <div class="card-body">
-              <h5 class="card-title">{{tournament.name}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Lugar: {{tournament.location}}</h6>
-              <h6 class="card-subtitle mb-2 text-muted">Superficie: {{tournament.surface}}</h6>
-              <h6 class="card-subtitle mb-2 text-muted">Tipo de Torneo: {{tournament.tournament_type.name}}</h6>
-              <p class="card-text"><small class="text-muted">Premio: $USD {{tournament.prize}}</small></p>
+              <h5 class="card-title">{{ tournament.name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                Lugar: {{ tournament.location }}
+              </h6>
+              <h6 class="card-subtitle mb-2 text-muted">
+                Superficie: {{ tournament.surface }}
+              </h6>
+              <h6 class="card-subtitle mb-2 text-muted">
+                Tipo de Torneo: {{ tournament.tournament_type.name }}
+              </h6>
+              <p class="card-text">
+                <small class="text-muted"
+                  >Premio: $USD {{ tournament.prize }}</small
+                >
+              </p>
             </div>
           </div>
         </div>
-      </div>  
+      </div>
     </div>
   </div>
 </div>

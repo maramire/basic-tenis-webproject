@@ -1,57 +1,58 @@
-{% extends 'base.html' %}
-{% load static %}
-
-
-{% block page_title %}
-  Detalle Torneo
-{% endblock %}
-
-{% block css_file %} 
-  <link rel="stylesheet" href="{% static 'css/tournament_match_detail.css' %}">    
-{% endblock %}
-
-
-{% block page_body %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% block page_title %} 
+  Detalle Torneo 
+{% endblock %} 
+{% block css_file %}
+<link rel="stylesheet" href="{% static 'css/tournament_match_detail.css' %}" />
+{% endblock %} {% block page_body %}
 <div class="container-fluid-lg">
-  <div class="row justify-content-md-center">   
+  <div class="row justify-content-md-center">
     <div class="col col-offset-2 col-lg-9 mt-5">
-      
       <h3>Datos de Partido {%if match.isLive %} ¡EN VIVO! {% endif %}</h3>
       {# Card #}
-      <div class="card mb-3" style="max-width: 1000px;">
+      <div class="card mb-3" style="max-width: 1000px">
         <div class="row g-0">
           {# Data #}
           <div class="col-md-4">
             <div class="card-body">
-              <h5 class="card-title">Torneo: {{match.tournament.name}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Fecha: {{match.date}}</h6>
+              <h5 class="card-title">Torneo: {{ match.tournament.name  }}</h5>
               <h6 class="card-subtitle mb-2 text-muted">
-                {% if match.winners.all %}
-                  Ganador
-                {% endif  %} 
-                {{match.get_winners}} {{ match.set_1 }} {{ match.set_2 }} {{ match.set_3 }} {{ match.set_4 }} {{ match.set_5 }}
+                Fecha: {{match.date}}
+              </h6>
+              <h6 class="card-subtitle mb-2 text-muted">
+                {% if match.winners.all %} Ganador {% endif %}
+                {{ match.get_winners }} {{ match.set_1 }} {{ match.set_2 }} {{match.set_3 }} {{ match.set_4 }} {{ match.set_5 }}
               </h6>
             </div>
           </div>
         </div>
       </div>
-      
+
       <h3>Jugadores</h3>
-      <div class="card mb-3" style="max-width: 1000px;">
+      <div class="card mb-3" style="max-width: 1000px">
         {% for player in match.players.all %}
         <div class="row g-0">
           {# Image #}
           <div class="col-md-4 text-center mt-2">
-            <img src="{{player.image.url}}" alt="...">
+            <img src="{{player.image.url}}" alt="..." />
           </div>
           {# Data #}
           <div class="col-md-4">
             <div class="card-body">
-              <h5 class="card-title">{{player.get_full_name}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Edad: {{player.get_age}}</h6>
-              <h6 class="card-subtitle mb-2 text-muted">Ranking: {{player.actual_ranking}}</h6>
-              <h6 class="card-subtitle mb-2 text-muted">Títulos ATP: {{player.pro_titles}}</h6>
-              <p class="card-text"><small class="text-muted">Entrenador: {{player.coach}}</small></p>
+              <h5 class="card-title">{{ player.get_full_name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                Edad: {{ player.get_age }}
+              </h6>
+              <h6 class="card-subtitle mb-2 text-muted">
+                Ranking: {{ player.actual_ranking }}
+              </h6>
+              <h6 class="card-subtitle mb-2 text-muted">
+                Títulos ATP: {{ player.pro_titles }}
+              </h6>
+              <p class="card-text">
+                <small class="text-muted">Entrenador: {{ player.coach }}</small>
+              </p>
             </div>
           </div>
         </div>
@@ -60,30 +61,23 @@
 
       {% if match.highlights_embed %}
       <h3>Video</h3>
-      <div class="card mb-3" style="max-width: 1000px;">
+      <div class="card mb-3" style="max-width: 1000px">
         <div class="row g-0">
           <div class="col-md-4">
-            <div class="card-body">
-              {{ match.highlights_embed | safe }}
-            </div>
+            <div class="card-body">{{ match.highlights_embed | safe }}</div>
           </div>
         </div>
       </div>
-      {% endif %}
-
-      {% if match.streaming_embed %}
+      {% endif %} {% if match.streaming_embed %}
       <h3>Streaming</h3>
-      <div class="card mb-3" style="max-width: 1000px;">
+      <div class="card mb-3" style="max-width: 1000px">
         <div class="row g-0">
           <div class="col-md-4">
-            <div class="card-body">
-              {{ match.streaming_embed | safe }}
-            </div>
+            <div class="card-body">{{ match.streaming_embed | safe }}</div>
           </div>
         </div>
       </div>
       {% endif %}
-
     </div>
   </div>
 </div>
